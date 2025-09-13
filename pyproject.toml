@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentic-ai-ops"
+version = "0.1.0"
+description = "Local prompt curator + router for Ollama SLMs"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name="agentic-ai-ops maintainers"}]
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn[standard]>=0.30.0",
+  "pydantic>=2.7.0",
+  "httpx>=0.27.0",
+  "orjson>=3.10.0",
+  "PyYAML>=6.0.1",
+  "jsonschema>=4.22.0",
+  "typer>=0.12.3",
+  "rich>=13.7.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-asyncio>=0.23.6",
+  "ruff>=0.5.0",
+  "mypy>=1.10.0",
+  "pre-commit>=3.7.0"
+]
+
+[project.scripts]
+aan = "empyrean-ai.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/empyrean_ai_ops"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+lint.select = ["E","F","I","UP","B","A","COM","C4","ICN","ISC","ARG"]
+lint.ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+pretty = true
+exclude = ["tests/.*"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+python_files = "test_*.py"

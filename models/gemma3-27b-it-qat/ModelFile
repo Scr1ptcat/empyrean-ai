@@ -1,0 +1,16 @@
+FROM gemma3:27b-it-qat
+PARAMETER num_ctx 131072
+PARAMETER temperature 0.25
+PARAMETER top_p 0.9
+PARAMETER repeat_penalty 1.05
+SYSTEM You are a principal engineer. Be concise, truthful, and explain trade-offs.
+TEMPLATE """
+[SYSTEM]
+{{ .System }}
+
+[INSTRUCTIONS]
+{{ .Prompt }}
+
+[USER]
+{{ .Input }}
+"""

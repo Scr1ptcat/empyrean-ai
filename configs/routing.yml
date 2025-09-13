@@ -1,0 +1,9 @@
+bug_hunting:
+  models:
+    - {name: "devstral:24b", prompt_id: "bug_triage.v1.yaml", expects_json: true}
+    - {name: "qwen3-coder:30b", prompt_id: "bug_triage.v1.yaml", expects_json: true}
+    - {name: "nemotron:70b", prompt_id: "bug_triage.v1.yaml", expects_json: true}
+design:
+  models:
+    - {name: "gemma3:27b-it-qat", prompt_id: "rfc_design.v1.yaml"}
+    - {name: "nemotron:70b", prompt_id: "rfc_design.v1.yaml"}

@@ -1,0 +1,30 @@
+# Decoding defaults per task family (deterministic vs creative)
+deterministic:
+  temperature: 0.2
+  top_p: 0.85
+  max_new_tokens: 1024
+
+creative:
+  temperature: 0.7
+  top_p: 0.95
+  max_new_tokens: 2048
+
+context_caps:
+  default: 16000
+  long_context_models: true   # allow 128k where supported
+
+per_task:
+  code_assist:
+    profile: deterministic
+  analytical:
+    profile: deterministic
+  extraction:
+    profile: deterministic
+    max_new_tokens: 512
+  design_rfc:
+    profile: deterministic
+    max_new_tokens: 1024
+  bug_triage:
+    profile: deterministic
+  creative:
+    profile: creative

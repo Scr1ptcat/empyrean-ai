@@ -1,0 +1,41 @@
+# Model registry and capabilities
+# 'ollama_name' points to the model identifier to use with Ollama.
+# 'context_max' is the default context cap; override per request if needed.
+# 'curated' models are created via modelfiles to fix SYSTEM tone and parameters.
+
+models:
+  gpt-oss:20b:
+    ollama_name: curated/gpt-oss-20b:curated
+    context_max: 16000
+    family: general
+  gpt-oss:120b:
+    ollama_name: curated/gpt-oss-120b:curated
+    context_max: 32000
+    family: general_heavy
+  qwen3-coder:30b:
+    ollama_name: curated/qwen3-coder-30b:curated
+    context_max: 128000
+    family: code
+  qwen3:30b:
+    ollama_name: curated/qwen3-30b:curated
+    context_max: 128000
+    family: general_long
+  devstral:24b:
+    ollama_name: curated/devstral-24b:curated
+    context_max: 128000
+    family: code
+  gemma3:27b:
+    ollama_name: curated/gemma3-27b:curated
+    context_max: 128000
+    family: general
+  gemma3:27b-it-qat:
+    ollama_name: curated/gemma3-27b-it-qat:curated
+    context_max: 128000
+    family: general_creative
+  nemotron:70b:
+    ollama_name: curated/nemotron-70b:curated
+    context_max: 64000
+    family: heavy_reasoner
+
+aliases:
+  "quen3:30b": "qwen3:30b"
