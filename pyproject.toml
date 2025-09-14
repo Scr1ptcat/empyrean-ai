@@ -3,13 +3,13 @@ requires = ["hatchling>=1.18"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agentic-ai-ops"
+name = "empyrean-ai"
 version = "0.1.0"
 description = "Local prompt curator + router for Ollama SLMs"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = "MIT"
-authors = [{name="agentic-ai-ops maintainers"}]
+authors = [{name="empyrean-ai maintainers"}]
 dependencies = [
   "fastapi>=0.115.0",
   "uvicorn[standard]>=0.30.0",
@@ -27,15 +27,14 @@ dev = [
   "pytest>=8.0.0",
   "pytest-asyncio>=0.23.6",
   "ruff>=0.5.0",
-  "mypy>=1.10.0",
-  "pre-commit>=3.7.0"
+  "mypy>=1.10.0"
 ]
 
 [project.scripts]
-aan = "empyrean-ai.cli:app"
+aan = "empyrean_ai.cli:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/empyrean_ai_ops"]
+packages = ["src/empyrean_ai"]
 
 [tool.ruff]
 line-length = 100
@@ -44,7 +43,7 @@ lint.select = ["E","F","I","UP","B","A","COM","C4","ICN","ISC","ARG"]
 lint.ignore = ["E501"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
