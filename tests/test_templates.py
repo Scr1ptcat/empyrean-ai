@@ -1,6 +1,6 @@
 from pathlib import Path
-from agentic_ai_ops.config import load_configs
-from agentic_ai_ops.curator.templates import TemplateLibrary
+from empyrean_ai.config import load_configs
+from empyrean_ai.curator.templates import TemplateLibrary
 
 def test_render_strips_user_content(tmp_path: Path):
     base = Path(__file__).resolve().parents[2]
