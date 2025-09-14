@@ -1,5 +1,5 @@
 import os, asyncio, pytest
-from agentic_ai_ops.curator.inference.ollama_client import OllamaClient
+from empyrean_ai.curator.inference.ollama_client import OllamaClient
 
 @pytest.mark.asyncio
 async def test_smoke_ollama():

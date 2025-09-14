@@ -1,5 +1,5 @@
-from agentic_ai_ops.config import load_configs
-from agentic_ai_ops.curator.router import Router
+from empyrean_ai.config import load_configs
+from empyrean_ai.curator.router import Router
 
 def test_classify_and_alias():
     cfg = load_configs(None)
