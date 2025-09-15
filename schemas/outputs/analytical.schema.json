@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empyrean.ai/schemas/outputs/analytical_v1.json",
+  "title": "analytical_v1",
+  "description": "Schema for analytical answers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer", "reasoning"],
+  "properties": {
+    "answer": {"type": "string"},
+    "reasoning": {"type": "string"}
+  }
+}
+

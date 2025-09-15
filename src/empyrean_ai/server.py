@@ -1,5 +1,5 @@
 from __future__ import annotations
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 from pathlib import Path
 from .config import load_configs
@@ -36,12 +36,14 @@ async def curate(req: CurateRequest):
     model_key = registry.routing_initial(task) if req.model in (None, "auto") else req.model
     model_info = registry.resolve(router.alias(model_key))
     out = await engine.curate(task, req.input, model_info.ollama_name, n_candidates=req.n_candidates, run_dir=BASE / "data" / "runs")
-    # escalation loop (simple): if invalid -> escalate along chain
+    # escalation loop: use configured signals policy
     chain = router.escalation_chain(task)
     i = 0
-    while (not out["validation"]["ok"]) and i < len(chain):
+    signals = out["validation"].get("signals", [])
+    while (not out["validation"]["ok"] or router.needs_escalation(signals)) and i < len(chain):
         m = registry.resolve(router.alias(chain[i]))
         out = await engine.curate(task, req.input, m.ollama_name, n_candidates=req.n_candidates, run_dir=BASE / "data" / "runs")
+        signals = out["validation"].get("signals", [])
         i += 1
     return {"task_family": task, "model_used": model_info.key if out["meta"]["model"]==model_info.ollama_name else chain[i-1] if i>0 else model_info.key, "output": out["text"], "validation": out["validation"], "meta": out["meta"]}
 

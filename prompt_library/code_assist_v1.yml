@@ -3,6 +3,8 @@ system: |
 instructions: |
   Provide a short summary, a step-by-step plan, and (optionally) a diff.
   Do not include secrets or environment-specific values. JSON only.
+[USER]
+{input}
 format_constraints: |
   {"summary": "string", "plan": "string", "language": "string", "diff": "string"}
 cues: ""

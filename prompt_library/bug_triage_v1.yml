@@ -3,6 +3,8 @@ system: |
 instructions: |
   Read the user's report and produce a concise triage with suspected cause and fix strategy.
   Output strictly valid JSON. No code fences. No extra commentary.
+[USER]
+{input}
 format_constraints: |
   {"bug_summary": "string", "suspected_cause": "string", "fix_strategy": "string", "risk": "string", "confidence": 0.0, "rationale": "string"}
 cues: ""

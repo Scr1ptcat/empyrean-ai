@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empyrean.ai/schemas/outputs/creative_v1.json",
+  "title": "creative_v1",
+  "description": "Schema for creative writing outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "style", "content"],
+  "properties": {
+    "title": {"type": "string"},
+    "style": {"type": "string"},
+    "content": {"type": "string"}
+  }
+}
+

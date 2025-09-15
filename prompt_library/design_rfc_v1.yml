@@ -3,6 +3,8 @@ system: |
 instructions: |
   Summarize the problem, propose an approach, list pros/cons, and a decision.
   Output JSON only.
+[USER]
+{input}
 format_constraints: |
   {"title": "string", "summary": "string", "pros": ["string"], "cons": ["string"], "decision": "string"}
 cues: |

@@ -1,7 +1,6 @@
 import time
 from pathlib import Path
 import logging
-import yaml
 
 from services.gateway.infer import run as llm
 from services.curator.curatord import craft_prompt
