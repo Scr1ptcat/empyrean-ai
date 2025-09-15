@@ -1,3 +1,6 @@
+# NOTE: Router must treat these signals as escalation triggers.
+# If router emits any additional quick-check signal, map it to one of these or add it here.
+# See README "Router policy".
 defaults:
   escalate_on: ["invalid_json", "schema_fail", "uncertainty_markers", "refusal_detected"]
 task_map:

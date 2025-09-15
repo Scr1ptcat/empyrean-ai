@@ -32,7 +32,10 @@ async def with_retry(
     for i in range(retries + 1):
         try:
             return await coro_fn(*args, **kwargs)
-        except Exception as exc:  # noqa: BLE001 - deliberate broad catch with filter
+        except BaseException as exc:  # noqa: BLE001 - deliberate broad catch with filter
+            # Never retry control-flow exceptions
+            if isinstance(exc, (KeyboardInterrupt, SystemExit, GeneratorExit)):
+                raise
             if not isinstance(exc, tuple(retry_on)):
                 raise
             last = exc

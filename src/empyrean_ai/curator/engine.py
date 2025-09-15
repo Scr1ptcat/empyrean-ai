@@ -8,13 +8,46 @@ from empyrean_ai.evaluators import log_run, proxy_score, now_ts
 from .inference.ollama_client import OllamaClient
 
 def _decoding_for(task_family: str, decoding_cfg: dict) -> dict:
-    profile = decoding_cfg["per_task"][task_family]["profile"]
-    base = decoding_cfg[profile].copy()
+    """Resolve decoding parameters for a task family with clear errors.
+
+    Expected shape in decoding_cfg:
+      profiles: {name: {...}}
+      per_task: {task_family: {profile: name, ...overrides}}
+      defaults: {...}  # optional
+    """
+    per_task = decoding_cfg.get("per_task") or {}
+    defaults = decoding_cfg.get("defaults") or {}
+    node = per_task.get(task_family)
+    if not node:
+        known = ", ".join(sorted(per_task)) or "<none>"
+        raise KeyError(f"Unknown task_family {task_family!r} in decoding config. Known: {known}")
+    # Support both new-style (profiles/defaults) and existing flat keys
+    profiles = decoding_cfg.get("profiles")
+    profile_name = node.get("profile")
+    if not profile_name:
+        raise KeyError(f"Task family {task_family!r} has no 'profile' entry in decoding config.")
+    if profiles is not None:
+        profile = profiles.get(profile_name)
+        if profile is None:
+            avail = ", ".join(sorted(profiles)) or "<none>"
+            raise KeyError(
+                f"Decoding profile {profile_name!r} not found in configs/decoding.yml. Available: {avail}"
+            )
+        base = {**defaults, **profile}
+    else:
+        # fallback to flat top-level profiles (e.g., 'deterministic', 'creative')
+        flat_profiles = {k: v for k, v in decoding_cfg.items() if k not in {"per_task", "context_caps", "defaults"}}
+        profile = flat_profiles.get(profile_name)
+        if profile is None:
+            avail = ", ".join(sorted(flat_profiles)) or "<none>"
+            raise KeyError(
+                f"Decoding profile {profile_name!r} not found. Available: {avail}"
+            )
+        base = {**defaults, **profile}
     # optional overrides
-    overrides = decoding_cfg["per_task"][task_family]
     for k in ("temperature", "top_p", "max_new_tokens"):
-        if k in overrides:
-            base[k] = overrides[k]
+        if k in node:
+            base[k] = node[k]
     return base
 
 REPAIR_INSTR = """You output invalid or non-conforming JSON for task '{task_family}'. 

@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import time
 import uuid
-from typing import Optional
+from typing import Any
 
 import httpx
 
@@ -16,14 +16,14 @@ class OllamaClient:
     Returns a dict compatible with CuratorEngine expectations.
     """
 
-    def __init__(self, base_url: str | None = None, timeout: float = 30.0, client: Optional[httpx.AsyncClient] = None):
+    def __init__(self, base_url: str | None = None, timeout: float = 30.0, client: httpx.AsyncClient | None = None):
         base = base_url or os.environ.get("OLLAMA_HOST", "http://localhost:11434")
         self.base_url = base.rstrip("/")
         self.timeout = timeout
         self._client = client
 
     async def generate(self, model: str, prompt: str, options: dict | None = None) -> dict:
-        body = {"model": model, "prompt": prompt, "stream": False}
+        body: dict[str, Any] = {"model": model, "prompt": prompt, "stream": False}
         if options:
             body["options"] = options
         url = f"{self.base_url}/api/generate"
@@ -31,11 +31,12 @@ class OllamaClient:
         async def _once() -> httpx.Response:
             if self._client is not None:
                 r = await self._client.post(url, json=body, timeout=self.timeout)
-            else:
-                async with httpx.AsyncClient(timeout=self.timeout) as client:
-                    r = await client.post(url, json=body)
-            r.raise_for_status()
-            return r
+                r.raise_for_status()
+                return r
+            async with httpx.AsyncClient(timeout=self.timeout) as client:
+                r = await client.post(url, json=body)
+                r.raise_for_status()
+                return r
 
         t0 = time.perf_counter()
         # Only retry network exceptions by default
