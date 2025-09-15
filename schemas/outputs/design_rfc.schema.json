@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empyrean.ai/schemas/outputs/design_rfc_v1.json",
+  "title": "design_rfc_v1",
+  "description": "Schema for lightweight design RFC outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "summary", "pros", "cons", "decision"],
+  "properties": {
+    "title": {"type": "string"},
+    "summary": {"type": "string"},
+    "pros": {"type": "array", "items": {"type": "string"}},
+    "cons": {"type": "array", "items": {"type": "string"}},
+    "decision": {"type": "string"}
+  }
+}
+

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empyrean.ai/schemas/outputs/code_assist_v1.json",
+  "title": "code_assist_v1",
+  "description": "Schema for code assistance responses.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "plan", "language"],
+  "properties": {
+    "summary": {"type": "string"},
+    "plan": {"type": "string"},
+    "language": {"type": "string"},
+    "diff": {"type": "string"}
+  }
+}
+

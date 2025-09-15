@@ -3,8 +3,8 @@ import asyncio
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 from .templates import TemplateLibrary
-from .post_validators import validate_output, ValidationResult
-from .evaluators import log_run, proxy_score, now_ts
+from empyrean_ai.post_validators import validate_output, ValidationResult
+from empyrean_ai.evaluators import log_run, proxy_score, now_ts
 from .inference.ollama_client import OllamaClient
 
 def _decoding_for(task_family: str, decoding_cfg: dict) -> dict:
