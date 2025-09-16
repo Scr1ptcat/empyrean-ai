@@ -2,7 +2,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from jsonschema import validate, Draft202012Validator
+from jsonschema import Draft202012Validator
 from jsonschema.exceptions import ValidationError
 
 UNCERTAINTY = re.compile(r"\b(not sure|uncertain|unsure|might be|maybe)\b", re.I)
@@ -25,7 +25,6 @@ def parse_json_strict(text: str) -> tuple[dict | None, str | None]:
         return None, str(e)
 
 def load_schema(path: Path) -> dict:
-    import json, sys
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
 

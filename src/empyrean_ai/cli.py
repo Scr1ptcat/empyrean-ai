@@ -14,7 +14,7 @@ app = typer.Typer(add_completion=False, no_args_is_help=True, help="Empyrean AI 
 @app.command()
 def curate(task: str = typer.Option(None, "--task", help="task family"),
            model: str = typer.Option("auto", "--model", help="model key|auto"),
-           input: str = typer.Option(..., "--input", help="text or @/path/to/file"),
+           user_input: str = typer.Option(..., "--input", help="text or @/path/to/file"),
            candidates: int = typer.Option(2, "--candidates", min=1, max=4)):
     setup_logging()
     base = Path(__file__).resolve().parents[2]
@@ -23,10 +23,10 @@ def curate(task: str = typer.Option(None, "--task", help="task family"),
     router = Router(cfg["routing"], aliases=cfg["models"].get("aliases", {}))
     engine = CuratorEngine(cfg, base)
 
-    if input.startswith("@"):
-        p = Path(input[1:]); text = p.read_text(encoding="utf-8")
+    if user_input.startswith("@"):
+        p = Path(user_input[1:]); text = p.read_text(encoding="utf-8")
     else:
-        text = input
+        text = user_input
 
     tf = task or router.classify(text)
     mk = registry.routing_initial(tf) if model == "auto" else model

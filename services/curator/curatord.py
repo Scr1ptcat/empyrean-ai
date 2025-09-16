@@ -1,6 +1,7 @@
-import yaml, json, pathlib
+import yaml, json
+from pathlib import Path
 
-LIB = pathlib.Path("services/curator/library")
+LIB = (Path(__file__).resolve().parent / "library")
 
 def _load(pid): return yaml.safe_load((LIB/pid).read_text())
 

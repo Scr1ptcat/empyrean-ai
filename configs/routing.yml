@@ -1,9 +1,12 @@
-bug_hunting:
-  models:
-    - {name: "devstral:24b", prompt_id: "bug_triage.v1.yaml", expects_json: true}
-    - {name: "qwen3-coder:30b", prompt_id: "bug_triage.v1.yaml", expects_json: true}
-    - {name: "nemotron:70b", prompt_id: "bug_triage.v1.yaml", expects_json: true}
-design:
-  models:
-    - {name: "gemma3:27b-it-qat", prompt_id: "rfc_design.v1.yaml"}
-    - {name: "nemotron:70b", prompt_id: "rfc_design.v1.yaml"}
+# NOTE: Router must treat these signals as escalation triggers.
+# If router emits any additional quick-check signal, map it to one of these or add it here.
+# See README "Router policy".
+defaults:
+  escalate_on: ["invalid_json", "schema_fail", "uncertainty_markers", "refusal_detected"]
+task_map:
+  bug_triage:   { initial: "devstral:24b",       chain: ["qwen3-coder:30b", "nemotron:70b"] }
+  code_assist:  { initial: "qwen3-coder:30b",    chain: ["nemotron:70b"] }
+  design_rfc:   { initial: "gemma3:27b-it-qat",  chain: ["nemotron:70b"] }
+  extraction:   { initial: "devstral:24b",       chain: ["qwen3-coder:30b"] }
+  creative:     { initial: "gemma3:27b-it-qat",  chain: [] }
+  analytical:   { initial: "devstral:24b",       chain: ["qwen3:30b"] }
